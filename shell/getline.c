@@ -14,8 +14,9 @@ int main(void)
 	printf("$ ");
 	getline(&buf, &n, stdin);
 	printf("%s", buf);
-	printf("%d\n", n);
+	printf("%ld\n", n);
 
+	free(buf);
 	return (0);
 }
 

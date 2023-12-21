@@ -1,40 +1,40 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-char *_strtok(char *string, const char delimeter)
+#include "shell.h"
+char *_strtok(char *string, const char *delimeter)
 {
-	int len = strlen(string);
-	char strc[len + 1];
+	static char *lastToken = NULL;
 	int i, j;
 
-	for (i = 0; i <= len; i++)
-	{
-		if (string[i] != delimeter)
-		{
-			strc[i] = string[i];
-		}
-		strc[i++] = '\0';
-	}
-	printf("%s\n", strc);
-}
+	if (string == NULL)
+	string = lastToken;
 
-int main(void)
-{
-	char str[] = "This is an array of strings";
-	char *stc = malloc(sizeof(char *) * strlen(str));
-	const char *delim = " ";
-	int i;
-	char *truncks;
+	if (string == NULL)
+	return (NULL);
 
-	strcpy(stc, str);
-	truncks = strtok(stc, delim);
-	for (i = 0; truncks != NULL; i++)
+	int len = strlen(string);
+	char *word = malloc(sizeof(char) * (len + 1));
+
+	if (word == NULL)
+	return (NULL);
+
+	for (i = 0, j = 0; i <= len; i++)
 	{
-		printf("%s\n", truncks);
-		truncks = strtok(NULL, delim);
+	if (string[i] == '\0' || _strchr(delimeter, string[i]) != NULL)
+	{
+	word[i] = '\0';
+	if (j > 0)
+	{
+	lastToken = &string[i + 1];
+	char *result = strdup(word);
+	free(word);
+	return (result);
 	}
-	printf("%s\n", str);
-	free(stc);
-	_strtok("hello world", " ");
-	return (0);
+	}
+	else
+	{
+	word[j] = string[i];
+	j++;
+	}
+	}
+	free(word);
+	return (NULL);
 }
