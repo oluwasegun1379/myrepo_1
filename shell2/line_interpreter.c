@@ -1,43 +1,36 @@
 #include "shell.h"
 /**
- * line_interpreter - Reads user input.
- * Description: Executes commands using system and
- * prints an error message if the command is not found
- *
- * Return: Nothing.
+ * line_interpreter - Reads user input and executes commands.
  */
 void line_interpreter(void)
 {
        	char *line = NULL;
+	char **argv;
 	size_t len = 0;
 	ssize_t read;
+	int status;
 
 	while (1)
 	{
 		printf("#cisfun$ ");
 		if ((read = getline(&line, &len, stdin)) == -1)
 		{
-			// printf("\n");
 			free(line);
 			break; // Handle end of file (Ctrl+D)
 		}
 		else
 		{
-			line[read - 1] = '\0'; // Remove trailing newline
+			line[read - 1] = '\0';
+			
+			line = add_abs_path_to_cmd(line);
+			argv = parse_cmd(line);
+			execute_cmd(argv);
 
-			// Check if the command includes a path and has no arguments
-			if (strchr(line, '/') != NULL && strchr(line, ' ') == NULL)
+			for (int i = 0; argv[i] != NULL; i++)
 			{
-				int status = system(line); // Execute the command using system
-				if (status == -1)
-				{
-					printf("./shell: No such file or directory\n"); // Handle command not found error
-				}
+				free(argv[i]);
 			}
-			else
-			{
-				with_arg(line);
-			}
+			free(argv);
 		}
 	}
 }
