@@ -9,7 +9,7 @@ char *add_abs_path_to_cmd(char *cmd)
         char *token;
         if (strchr(cmd, '/') == NULL)
         {
-		path_copy = strndup(path, strlen(path));
+		path_copy = strdup(path);
 
                 token = _strtok(path_copy, ":");
 		while (token != NULL)
@@ -21,12 +21,15 @@ char *add_abs_path_to_cmd(char *cmd)
 			if (access(full_path, X_OK) == 0)
                         {
                                 free(path_copy);
+				free(cmd);
+				free(token);
                                 return full_path;
                         }
 			free(full_path);
                         token = _strtok(NULL, ":");
 		}
 		printf("%s: Command not found\n", cmd);
+		free(token);
                 free(path_copy);
 		exit(1);
 	}

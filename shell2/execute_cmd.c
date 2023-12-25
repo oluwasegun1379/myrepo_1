@@ -3,7 +3,7 @@
  * execute_cmd - Execute a command and handle errors.
  * @argv: Arrays of command and its arguments.
  *
- * Return: 0 on successful execution, -1 on failure.
+ * Return: 0 on successful execution, 1 on failure.
  */
 int execute_cmd(char **argv)
 {
@@ -28,6 +28,8 @@ int execute_cmd(char **argv)
 			perror("waitpid");
 			exit(1);
 		}
+		for (int i = 0; argv[i] != NULL; i++)
+			free(argv[1]);
 		return (0);
 	}
 	else
@@ -36,5 +38,5 @@ int execute_cmd(char **argv)
 		exit(1);
 	}
 
-	return (-1);
+	return (1);
 }

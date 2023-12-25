@@ -12,7 +12,9 @@ char **parse_cmd(char *cmd)
 	char **argv;
 
 	if (cmd == NULL)
+	{
 		return NULL;
+	}
 
 	int token_count = 0;
 	char *tmp = strdup(cmd);
@@ -26,7 +28,11 @@ char **parse_cmd(char *cmd)
 
 	argv = calloc(token_count + 1, sizeof(char *));
 	if (argv == NULL)
+	{
+		free(cmd);
+		free(token);
 		return (NULL);
+	}
 	token = _strtok(cmd, " ");
 	while (token != NULL)
 	{
@@ -35,6 +41,8 @@ char **parse_cmd(char *cmd)
 		token = _strtok(NULL, " ");
 	}
 	argv[i] = NULL;
+	free(cmd);
+	free(token);
 
 	return (argv);
 }

@@ -15,7 +15,8 @@ void line_interpreter(void)
 		printf("#cisfun$ ");
 		if ((read = getline(&line, &len, stdin)) == -1)
 		{
-			free(line);
+			if (line != NULL)
+				free(line);
 			break; // Handle end of file (Ctrl+D)
 		}
 		else
@@ -33,4 +34,8 @@ void line_interpreter(void)
 			free(argv);
 		}
 	}
+	if (line != NULL)
+		free(line);
+	if (argv != NULL)
+		free(argv);
 }
