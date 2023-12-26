@@ -52,6 +52,7 @@ char **parse_cmd(char *cmd)
 		token = _strtok(NULL, " ");
 	}
 	argv[i] = NULL;
+	free(token);
 	free(cmd);
 
 	return (argv);

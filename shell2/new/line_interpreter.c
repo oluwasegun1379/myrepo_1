@@ -5,10 +5,10 @@
 void line_interpreter(void)
 {
        	char *line = NULL;
-	char **argv;
+	char **argv = NULL;
 	size_t len = 0;
-	ssize_t read;
-	int status;
+	ssize_t read = 0;
+	int status = 0;
 
 	while (1)
 	{
@@ -25,7 +25,7 @@ void line_interpreter(void)
 			
 			line = add_abs_path_to_cmd(line);
 			argv = parse_cmd(line);
-			execute_cmd(argv);
+			//execute_cmd(argv);
 
 			//for (int i = 0; argv[i] != NULL; i++)
 			//{
@@ -34,8 +34,8 @@ void line_interpreter(void)
 			free(argv);
 		}
 	}
-	if (line != NULL)
-		free(line);
-	if (argv != NULL)
-		free(argv);
+	//if (line != NULL)
+	//	free(line);
+	//if (argv != NULL)
+	//	free(argv);
 }
