@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "HELLO WORLD"
+echo "My name Chatgpt"
+echo "How may i help you today?"

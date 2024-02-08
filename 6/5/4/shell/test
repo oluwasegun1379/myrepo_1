@@ -1,0 +1,18 @@
+#include "shell.h"
+#include <stdio.h>
+
+int main() {
+    char commandLine[] = "ls -l -a";
+
+    // Extract the command
+    char* command = my_strtok(commandLine, " ");
+    printf("Command: %s\n", command);
+
+    // Extract the arguments
+    char* argument;
+    while ((argument = my_strtok(NULL, " ")) != NULL) {
+        printf("Argument: %s\n", argument);
+    }
+
+    return 0;
+}

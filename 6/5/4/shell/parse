@@ -1,0 +1,27 @@
+#include "shell.h"
+char *parse_cmd(char *cmd, char *args[])
+{
+    char *command;
+    // Parse the command and arguments
+    command = my_strtok(cmd, " ");
+    args[0] = command;
+
+	// to allow cmd with abs_part only
+    /*if (command[0] != '/') {
+        // If the command is not an absolute path, set it to NULL
+        args[0] = NULL;
+    }*/
+
+    	// to allow single abs_part args
+	/*args[1] = strtok(NULL, " ");
+	if (args[1] != NULL)
+		args[0] = NULL;*/
+
+    for (int i = 1; i < MAX_INPUT_SIZE; i++) {
+        args[i] = strtok(NULL, " ");
+        if (args[i] == NULL)
+            break;
+    }
+    return args;
+}
+
