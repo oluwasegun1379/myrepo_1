@@ -45,18 +45,34 @@ int hash_index(char *key, int size)
 
 	return index;
 }
+int set_ht(char *key, int value)
+{
+	hash_node_t *new;
+	hash_table_t *ht;
+
+	if (key == NULL || *key == '\0')
+		return 0;
+	int index = hash_index(key, ht->size);
+	new = malloc(sizeof(hash_node_t));
+	if (new == NULL)
+		return 0;
+	new->key = strdup(key); // duplicated the string.
+	if (new->key == NULL)
+	{
+		free(new);
+		return 0;
+	}
+	key->value = value;
+
+	return 1;
+}
+
 int main()
 {
 	hash_table_t *ht;
 	int h_index;
 
 	ht = create_ht(34);
-	h_index = hash_index("Tobi", 10);
-	printf("%d\n", h_index);
-	h_index = hash_index("Bola", 29);
-	printf("%d\n", h_index);
-	h_index = hash_index("Toby", 15);
-	printf("%d\n", h_index);
 	printf("%p\n", (void *)ht);
 
 	return (0);
