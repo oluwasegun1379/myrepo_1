@@ -10,17 +10,20 @@ typedef struct hash_node
 typedef struct hash_table
 {
 	int size;
-	char **array;
+	hash_node_t **array;
 } hash_table_t;
+
 hash_table_t *create_ht(int size)
 {
 	hash_table_t *ht;
 
 	if (size == '\0')
 		return NULL;
+
 	ht = malloc(sizeof(hash_table_t));
 	if (ht == NULL)
 		return NULL;
+
 	ht->size = size;
 	ht->array = malloc(sizeof(hash_table_t *) * size);
 	if (ht->array == NULL)
@@ -28,6 +31,7 @@ hash_table_t *create_ht(int size)
 		free(ht);
 		return NULL;
 	}
+
 	for (int i = 0; i < size; i++)
 		ht->array[i] = NULL;
 
@@ -45,14 +49,14 @@ int hash_index(char *key, int size)
 
 	return index;
 }
-int set_ht(char *key, int value)
+int set_ht(hash_table_t *ht, char *key, int value)
 {
+	int index;
 	hash_node_t *new;
-	hash_table_t *ht;
 
-	if (key == NULL || *key == '\0')
+	if (ht == NULL || key == NULL || *key == '\0')
 		return 0;
-	int index = hash_index(key, ht->size);
+	index = hash_index(key, ht->size);
 	new = malloc(sizeof(hash_node_t));
 	if (new == NULL)
 		return 0;
@@ -62,7 +66,11 @@ int set_ht(char *key, int value)
 		free(new);
 		return 0;
 	}
-	key->value = value;
+	new->value = value;
+	new->next = NULL;
+
+	new->next = ht->array[index];
+	ht->array[index] = new;
 
 	return 1;
 }
@@ -70,10 +78,37 @@ int set_ht(char *key, int value)
 int main()
 {
 	hash_table_t *ht;
-	int h_index;
+	hash_node_t *current;
 
-	ht = create_ht(34);
+	ht = create_ht(10);
 	printf("%p\n", (void *)ht);
+
+	set_ht(ht, "Segun", 25);
+	set_ht(ht, "John", 30);
+	set_ht(ht, "Tobi", 15);
+	set_ht(ht, "Ayo", 22);
+	set_ht(ht, "Richard", 37);
+	set_ht(ht, "AZ", 27);
+	set_ht(ht, "Kiddo", 23);
+	set_ht(ht, "Fawaz", 28);
+	set_ht(ht, "Shola", 29);
+	set_ht(ht, "Blessin", 20);
+	set_ht(ht, "Kareem", 26);
+	set_ht(ht, "Oluwasegun", 25);
+	set_ht(ht, "Lolade", 17);
+	set_ht(ht, "Samsom", 15);
+	set_ht(ht, "Wick", 35);
+	set_ht(ht, "Merlin", 24);
+
+	for (int i = 0; i < ht->size; i++)
+	{
+		current = ht->array[i];
+		while (current != NULL)
+		{
+			printf("%d --- %s -> %d\n", i, current->key, current->value);
+			current = current->next;
+		}
+	}
 
 	return (0);
 }
