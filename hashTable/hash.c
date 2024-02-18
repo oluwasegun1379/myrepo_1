@@ -39,19 +39,16 @@ hash_table_t *create_ht(int size)
 }
 int hash_index(char *key, int size)
 {
-	// Using divion method
-	int index, i, hash = 0;
-	int keyLen = strlen(key);;
+	int c;
+	int index = 5380;
 
-	for (i = 0; i < keyLen; i++)
-		hash += key[i];
-	index = hash % size;
-
+	while (c = *key++)
+		index = (((index << 5) + index) + c) % size;
 	return index;
 }
 int set_ht(hash_table_t *ht, char *key, int value)
 {
-	int index;
+   	int index;
 	hash_node_t *new;
 
 	if (ht == NULL || key == NULL || *key == '\0')
@@ -80,7 +77,7 @@ int main()
 	hash_table_t *ht;
 	hash_node_t *current;
 
-	ht = create_ht(10);
+	ht = create_ht(5);
 	printf("%p\n", (void *)ht);
 
 	set_ht(ht, "Segun", 25);
@@ -89,12 +86,12 @@ int main()
 	set_ht(ht, "Ayo", 22);
 	set_ht(ht, "Richard", 37);
 	set_ht(ht, "AZ", 27);
-	set_ht(ht, "Kiddo", 23);
+	set_ht(ht, "Kiddo", '\0');
 	set_ht(ht, "Fawaz", 28);
 	set_ht(ht, "Shola", 29);
 	set_ht(ht, "Blessin", 20);
 	set_ht(ht, "Kareem", 26);
-	set_ht(ht, "Oluwasegun", 25);
+	set_ht(ht, "Segun", 25);
 	set_ht(ht, "Lolade", 17);
 	set_ht(ht, "Samsom", 15);
 	set_ht(ht, "Wick", 35);
@@ -105,7 +102,7 @@ int main()
 		current = ht->array[i];
 		while (current != NULL)
 		{
-			printf("%d --- %s -> %d\n", i, current->key, current->value);
+			printf("%d-+-%s->(%d)\n", i, current->key, current->value);
 			current = current->next;
 		}
 	}
