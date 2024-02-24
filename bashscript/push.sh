@@ -4,7 +4,7 @@
 git add .
 
 # Prompt the user to enter a commit message
-echo "Enter your commit message: "
+echo -n "Enter your commit message: "
 read -r mes
 
 # Check if the commit message is empty
